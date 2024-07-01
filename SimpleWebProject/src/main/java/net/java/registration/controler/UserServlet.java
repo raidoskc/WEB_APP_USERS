@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import net.java.registration.dao.UserDao;
 import net.java.registration.model.User;
@@ -42,6 +43,9 @@ public class UserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
+		
+		PrintWriter out = response.getWriter();
+		
 		//Take all inputs
 		String name = request.getParameter("name");
         String surname = request.getParameter("surname");
@@ -50,6 +54,7 @@ public class UserServlet extends HttpServlet {
         String homeAddress = request.getParameter("homeaddress");
         String workAddress = request.getParameter("workaddress");
         
+        if(name!= "" && surname!= "" && gender!= "" && birthday!= "") {
         
         try {
         	//Inserts data to user.java (Model)
@@ -68,6 +73,12 @@ public class UserServlet extends HttpServlet {
             // TODO Auto-generated catch block
             e.printStackTrace();
             response.sendRedirect("Error.jsp");
+        }
+        } else {
+        	out.println("<script type=\"text/javascript\">");
+            out.println("alert('Check your Required fields (*)');");
+            out.println("</script>");
+            //response.sendRedirect("Homepage.jsp");  
         }
 	}
 
